@@ -23,6 +23,11 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
+// Rota de teste para verificar se a aplicação está funcionando
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok']);
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
