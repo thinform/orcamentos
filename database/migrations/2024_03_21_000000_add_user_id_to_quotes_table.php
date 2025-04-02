@@ -12,13 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('quotes', function (Blueprint $table) {
-            if (!Schema::hasColumn('quotes', 'user_id')) {
-                $table->unsignedBigInteger('user_id')->nullable()->after('status');
-                $table->foreign('user_id')
-                    ->references('id')
-                    ->on('users')
-                    ->onDelete('set null');
-            }
+            $table->foreignId('user_id')->nullable()->after('status')->constrained()->onDelete('set null');
         });
     }
 
@@ -28,10 +22,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('quotes', function (Blueprint $table) {
-            if (Schema::hasColumn('quotes', 'user_id')) {
-                $table->dropForeign(['user_id']);
-                $table->dropColumn('user_id');
-            }
+            $table->dropForeign('quotes_user_id_foreign');
+            $table->dropColumn('user_id');
         });
     }
-};
+}; 
